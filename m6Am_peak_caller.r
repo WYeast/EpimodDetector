@@ -14,7 +14,7 @@ untreated_input_total=1.8*10^6
 treated_ip_total=1.6*10^6
 treated_input_total=1.7*10^6
 gene_id=counts$Geneid
-
+##test
 rhtest_res=rhtest(untreated_ip, untreated_input, treated_ip, treated_input,
       untreated_ip_total, untreated_input_total, treated_ip_total,
       treated_input_total, minimal_count_fdr = 10)
