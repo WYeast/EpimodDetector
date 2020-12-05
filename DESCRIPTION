@@ -1,11 +1,12 @@
-Package: m6Am
+Package: m6Am_caller
 Type: Package
-Title: What the Package Does (Title Case)
+Title: The package is developed for the analysis of m6Am-seq data.
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Ye Wang, Zhen Wei
+Maintainer: Ye Wang <wyeast200@ucla.edu>
+Description: m6Am_caller is based on the differential methylation analysis of 
+control and m6Am methyltransferase knockout conditions. Differentially 
+methylated transcription start sites are defined as m6Am sites.
+License: GPL-2
 Encoding: UTF-8
 LazyData: true
