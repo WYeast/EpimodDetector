@@ -1,4 +1,3 @@
-setwd("C:/Users/88/Desktop/yang_shi/")
 source("rhtest.r")
 counts <- read.csv("counts.new.csv",header=T)
 head(counts)
