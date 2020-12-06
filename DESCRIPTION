@@ -1,6 +1,6 @@
 Package: m6Am_caller
 Type: Package
-Title: The package is developed for the analysis of m6Am-seq data.
+Title: Differential analysis detection of m6Am
 Version: 0.1.0
 Author: Ye Wang, Zhen Wei
 Maintainer: Ye Wang <wyeast200@ucla.edu>
