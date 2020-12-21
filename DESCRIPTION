@@ -1,10 +1,10 @@
-Package: m6AmCaller
+Package: EpimodDetector
 Type: Package
 Title: Differential analysis detection of m6Am
 Version: 0.1.0
 Author: Ye Wang, Zhen Wei
 Maintainer: Ye Wang <wyeast200@ucla.edu>
-Description: m6Am_caller is based on the differential methylation analysis of control and m6Am methyltransferase knockout conditions. Differentially methylated transcription start sites are defined as m6Am sites.
+Description: EpimodDetector is based on the differential methylation analysis of control and m6Am methyltransferase knockout conditions. Differentially methylated transcription start sites are defined as m6Am sites.
 License: GPL-2
 Encoding: UTF-8
 LazyData: false

@@ -4,6 +4,9 @@ m6AmCaller is based on the differential methylation analysis of control and m6Am
 In this package, differentially methylated transcription start sites are detected by hypergeometric test and defined as potential m6Am sites.
 
 Usage:
+
+library(m6AmCaller)
+
 m6Am_call(IP_BAM="IP.control.sorted.bam",
           INPUT_BAM = "Input.control.sorted.bam",
           KO_IP_BAM = "IP.PCIF1.KO.sorted.bam",

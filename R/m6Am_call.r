@@ -62,5 +62,5 @@ m6Am_call <- function(
   ##write result
   rhtest_res=as.matrix(as.data.frame(rhtest_res))
   rownames(rhtest_res)=rownames(counts)
-  write.csv(rhtest_res,"test.m6Am.call.csv")
+  write.csv(rhtest_res,"m6Am.csv")
 }
