@@ -1,3 +1,23 @@
+#' This is the description of rhtest function.
+#' @title rhtest
+#'
+#' @description  This function is the core funtion within m6Am_call
+#'
+#' @details This function performs differential methylation analysis through hypergeometric test.
+#'
+#' @param untreated_ip: bam files for control ip sample
+#' @param untreated_input: bam files for control input sample
+#' @param treated_ip: bam files for PCIF1 knockout ip sample
+#' @param treated_input: bam files for PCIF1 knockout input sample
+#' @param untreated_ip_total: depth of control ip sample
+#' @param untreated_input_total: depth of control input sample
+#' @param treated_ip_total: depth of PCIF1 knockout ip sample
+#' @param treated_input_total: depth of PCIF1 knockout input sample
+#' @return a list object that lists fold change, log.p, log.fdr for reads in every TSS region across the different conditions
+#' @example
+#' rhtest(untreated_ip, untreated_input, treated_ip, treated_input,untreated_ip_total, untreated_input_total, treated_ip_total,treated_input_total, minimal_count_fdr = 10)
+#' @export
+
 rhtest<-function (untreated_ip, untreated_input, treated_ip, treated_input,
           untreated_ip_total, untreated_input_total, treated_ip_total,
           treated_input_total, minimal_count_fdr = 10)

@@ -1,1 +1,3 @@
-exportPattern("^[[:alpha:]]+")
+export(rhtest)
+export(m6Am_call)
+import(Rsubread)
