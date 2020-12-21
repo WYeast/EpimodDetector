@@ -1,6 +1,6 @@
 # m6Am_peak_caller
 
-m6Am_caller is based on the differential methylation analysis of control and m6Am methyltransferase (PCIF1) knockout conditions. 
+m6AmCaller is based on the differential methylation analysis of control and m6Am methyltransferase (PCIF1) knockout conditions. 
 In this package, differentially methylated transcription start sites are detected by hypergeometric test and defined as potential m6Am sites.
 
 Usage:
