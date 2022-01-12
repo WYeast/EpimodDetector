@@ -4,9 +4,14 @@ EpimodDetector is based on the differential methylation analysis of control and 
 In this package, differentially methylated transcription start sites are detected by hypergeometric test and defined as potential m6Am sites.
 
 Installation:
-Before the installation, devtools is required to be installed, if you haven't done that yet,
+Before the installation, devtools and Rsubread is required to be installed, if you haven't done that yet,
 ```
 install.packages("devtools")
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("Rsubread")
+
 library(devtools)
 install_github("WYeast/EpimodDetector")
 ```
