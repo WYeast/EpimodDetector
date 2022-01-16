@@ -15,7 +15,7 @@
 #' m6Am_call(IP_BAM="m6Am-Cont.sorted.bam",INPUT_BAM = "Input-Cont.sorted.bam",KO_IP_BAM = "m6Am-KO.sorted.bam",KO_INPUT_BAM = "Input-KO.sorted.bam",GENE_ANNO_SAF = "Homo_sapiens.GRCh38.95.gtf.tss.+-300.new.bed"))
 #' @export
 m6Am_call <- function(
-  IP_BAM,INPUT_BAM,KO_IP_BAM,KO_INPUT_BAM,GENE_ANNO_SAF=NA){
+  IP_BAM,INPUT_BAM,KO_IP_BAM,KO_INPUT_BAM,GENE_ANNO_SAF=NA,IS_PAIRED_END=NA){
   PARAMETERS=list();
   PARAMETERS$IP_BAM=IP_BAM
   PARAMETERS$INPUT_BAM=INPUT_BAM
@@ -26,6 +26,10 @@ m6Am_call <- function(
   # check annotation
   if (is.na(PARAMETERS$GENE_ANNO_SAF)) {
     stop("must specify the TSS annotation .saf file/TxDb object for m6Am_peak_caller to work!",
+         call. = TRUE, domain = NULL)}
+    # check single/paired-end status
+  if (is.na(PARAMETERS$IS_PAIRED_END)) {
+    stop("must specify the single/paired-end status for m6Am_peak_caller to work!",
          call. = TRUE, domain = NULL)}
   # get bam files
   bam=c(PARAMETERS$IP_BAM,PARAMETERS$INPUT_BAM,PARAMETERS$KO_IP_BAM,PARAMETERS$KO_INPUT_BAM)
