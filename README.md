@@ -15,11 +15,9 @@ BiocManager::install("Rsubread")
 library(devtools)
 install_github("WYeast/EpimodDetector")
 ```
-Usage:
+Usage (default annotation is for human hg38 genome):
 ```
 library(EpimodDetector)
-
-GENE_ANNO_GTF = system.file("extdata", "start_100_cage_corrected.saf", package="EpimodDetector")
 
 m6Am_call(IP_BAM="IP.control.sorted.bam",
           INPUT_BAM = "Input.control.sorted.bam",
