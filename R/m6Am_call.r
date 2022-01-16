@@ -15,7 +15,7 @@
 #' m6Am_call(IP_BAM="m6Am-Cont.sorted.bam",INPUT_BAM = "Input-Cont.sorted.bam",KO_IP_BAM = "m6Am-KO.sorted.bam",KO_INPUT_BAM = "Input-KO.sorted.bam",GENE_ANNO_SAF = GENE_ANNO_SAF, ))
 #' @export
 m6Am_call <- function(
-  IP_BAM,INPUT_BAM,KO_IP_BAM,KO_INPUT_BAM,GENE_ANNO_SAF=NA,TSS_ANNO_SAF=NA,IS_PAIRED_END=NA){
+  IP_BAM,INPUT_BAM,KO_IP_BAM,KO_INPUT_BAM,GENE_ANNO_SAF=NA,TSS_ANNO_SAF=NA,IS_PAIRED_END=NA,MINIMAL_COUNT_FDR=0){
   PARAMETERS=list();
   PARAMETERS$IP_BAM=IP_BAM
   PARAMETERS$INPUT_BAM=INPUT_BAM
@@ -24,6 +24,7 @@ m6Am_call <- function(
   PARAMETERS$GENE_ANNO_SAF=GENE_ANNO_SAF
   PARAMETERS$TSS_ANNO_SAF=TSS_ANNO_SAF
   PARAMETERS$IS_PAIRED_END=IS_PAIRED_END
+  PARAMETERS$MINIMAL_COUNT_FDR=MINIMAL_COUNT_FDR
   # check annotation, if not provided, use default hg38 annotation
   if (is.na(PARAMETERS$GENE_ANNO_SAF)) {
     PARAMETERS$GENE_ANNO_SAF = system.file("extdata", "hg38.exons.bed", package="EpimodDetector")}
@@ -72,7 +73,7 @@ m6Am_call <- function(
   ##rhtest
   rhtest_res=rhtest(ip_count, input_count, ko_ip_count, ko_input_count,
                     ip_total, input_total, ko_ip_total,
-                    ko_input_total, minimal_count_fdr = 10)
+                    ko_input_total, minimal_count_fdr = PARAMETERS$MINIMAL_COUNT_FDR)
   ##write result
   rhtest_res=as.data.frame(rhtest_res)
   rhtest_res=cbind(merged_data$GeneID,rhtest_res)

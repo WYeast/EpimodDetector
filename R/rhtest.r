@@ -20,7 +20,7 @@
 
 rhtest<-function (untreated_ip, untreated_input, treated_ip, treated_input,
                   untreated_ip_total, untreated_input_total, treated_ip_total,
-                  treated_input_total, minimal_count_fdr = 10)
+                  treated_input_total, minimal_count_fdr)
 {
   if ((untreated_ip_total * treated_input_total) > (untreated_input_total *
                                                     treated_ip_total)) {
