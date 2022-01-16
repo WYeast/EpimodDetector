@@ -25,7 +25,6 @@ m6Am_call(IP_BAM="IP.control.sorted.bam",
           INPUT_BAM = "Input.control.sorted.bam",
           KO_IP_BAM = "IP.PCIF1.KO.sorted.bam",
           KO_INPUT_BAM = "Input.PCIF1.KO.sorted.bam",
-          GENE_ANNO_SAF = GENE_ANNO_GTF,
           IS_PAIRED_END = TRUE
           )
 ```         
