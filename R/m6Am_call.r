@@ -41,7 +41,7 @@ m6Am_call <- function(
   counts=NULL
   for (ibam in 1:no_bam_files) {
     file=bam[ibam]
-    fc=featureCounts(file,annot.ext=PARAMETERS$GENE_ANNO_SAF,isPairedEnd=IS_PAIRED_END)
+    fc=featureCounts(file,annot.ext=PARAMETERS$GENE_ANNO_SAF,isPairedEnd=PARAMETERS$IS_PAIRED_END)
     counts=cbind(counts,fc$counts)
   }
   ##individual counts and total counts
