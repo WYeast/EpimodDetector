@@ -12,49 +12,58 @@
 #' @param GENE_ANNO_SAF: .saf file for the annotation of TSS regions
 #' @return a .csv file that lists fold change, log.p, log.fdr for reads in every TSS region across the different conditions
 #' @example
-#' m6Am_call(IP_BAM="m6Am-Cont.sorted.bam",INPUT_BAM = "Input-Cont.sorted.bam",KO_IP_BAM = "m6Am-KO.sorted.bam",KO_INPUT_BAM = "Input-KO.sorted.bam",GENE_ANNO_SAF = "Homo_sapiens.GRCh38.95.gtf.tss.+-300.new.bed"))
+#' m6Am_call(IP_BAM="m6Am-Cont.sorted.bam",INPUT_BAM = "Input-Cont.sorted.bam",KO_IP_BAM = "m6Am-KO.sorted.bam",KO_INPUT_BAM = "Input-KO.sorted.bam",GENE_ANNO_SAF = GENE_ANNO_SAF, ))
 #' @export
 m6Am_call <- function(
-  IP_BAM,INPUT_BAM,KO_IP_BAM,KO_INPUT_BAM,GENE_ANNO_SAF=NA,IS_PAIRED_END=NA){
+  IP_BAM,INPUT_BAM,KO_IP_BAM,KO_INPUT_BAM,GENE_ANNO_SAF=NA,TSS_ANNO_SAF=NA,IS_PAIRED_END=NA){
   PARAMETERS=list();
   PARAMETERS$IP_BAM=IP_BAM
   PARAMETERS$INPUT_BAM=INPUT_BAM
   PARAMETERS$KO_IP_BAM=KO_IP_BAM
   PARAMETERS$KO_INPUT_BAM=KO_INPUT_BAM
   PARAMETERS$GENE_ANNO_SAF=GENE_ANNO_SAF
+  PARAMETERS$TSS_ANNO_SAF=TSS_ANNO_SAF
   PARAMETERS$IS_PAIRED_END=IS_PAIRED_END
-  # check annotation
+  # check annotation, if not provided, use default hg38 annotation
   if (is.na(PARAMETERS$GENE_ANNO_SAF)) {
-    stop("must specify the TSS annotation .saf file/TxDb object for m6Am_peak_caller to work!",
-         call. = TRUE, domain = NULL)}
-    # check single/paired-end status
+    PARAMETERS$GENE_ANNO_SAF = system.file("extdata", "hg38.exons.bed", package="EpimodDetector")}
+  if (is.na(PARAMETERS$TSS_ANNO_SAF)) {
+    PARAMETERS$TSS_ANNO_SAF = system.file("extdata", "hg38_start_100_cage_corrected.saf", package="EpimodDetector")}
+  # check single/paired-end status
   if (is.na(PARAMETERS$IS_PAIRED_END)) {
     stop("must specify the single/paired-end status for m6Am_peak_caller to work!",
          call. = TRUE, domain = NULL)}
   # get bam files
   bam=c(PARAMETERS$IP_BAM,PARAMETERS$INPUT_BAM,PARAMETERS$KO_IP_BAM,PARAMETERS$KO_INPUT_BAM)
   no_bam_files=length(bam)
-#for (ibam in 1:no_bam_files) {
-#  file=bam[ibam]
-#  if (! file.exists(paste(file,'.bai',sep=""))){
-#    print(paste("Stage: index bam file", file))
-#    indexBam(file)
-#}}
 
-#reads count
-  counts=NULL
+  #reads count
+  merged_data=NULL
+
   for (ibam in 1:no_bam_files) {
     file=bam[ibam]
-    fc=featureCounts(file,annot.ext=PARAMETERS$GENE_ANNO_SAF,isPairedEnd=PARAMETERS$IS_PAIRED_END)
-    counts=cbind(counts,fc$counts)
+    #if sample is input, obtain gene level count
+    if(ibam%%2==0){
+      fc=featureCounts(file,annot.ext=PARAMETERS$GENE_ANNO_SAF,isPairedEnd=PARAMETERS$IS_PAIRED_END)
+    }
+    #if sample is ip, obtain TSS count
+    else{
+      fc=featureCounts(file,annot.ext=PARAMETERS$TSS_ANNO_SAF,isPairedEnd=PARAMETERS$IS_PAIRED_END)
+    }
+    fc=cbind(fc$annotation,fc$counts)
+    if(ibam==1){
+      merged_data=fc
+    }
+    else{
+      merged_data=merge(x=merged_data,y=fc,by.x="GeneID",by.y="GeneID",all=FALSE)
+    }
   }
   ##individual counts and total counts
-  ip_count=counts[,1]
-  input_count=counts[,2]
-  ko_ip_count=counts[,3]
-  ko_input_count=counts[,4]
+  ip_count=merged_data[,7]
+  input_count=merged_data[,13]
+  ko_ip_count=merged_data[,19]
+  ko_input_count=merged_data[,25]
 
-  sum=apply(counts,2,sum)
   ip_total=as.numeric(sum(ip_count))
   input_total=as.numeric(sum(input_count))
   ko_ip_total=as.numeric(sum(ko_ip_count))
@@ -65,7 +74,8 @@ m6Am_call <- function(
                     ip_total, input_total, ko_ip_total,
                     ko_input_total, minimal_count_fdr = 10)
   ##write result
-  rhtest_res=as.matrix(as.data.frame(rhtest_res))
-  rhtest_res$gene_id=rownames(counts)
-  write.csv(rhtest_res,"m6Am.csv",quote= F,sep="\t",col.names=F, row.names = F)
+  rhtest_res=as.data.frame(rhtest_res)
+  rhtest_res=cbind(merged_data$GeneID,rhtest_res)
+  colnames(rhtest_res)[1]="GeneID"
+  write.csv(rhtest_res,"Diff.TSS.csv",row.names = FALSE)
 }
