@@ -40,7 +40,7 @@ m6Am_call <- function(
   counts=NULL
   for (ibam in 1:no_bam_files) {
     file=bam[ibam]
-    fc=featureCounts(file,annot.ext=PARAMETERS$GENE_ANNO_SAF)
+    fc=featureCounts(file,annot.ext=PARAMETERS$GENE_ANNO_SAF,isPairedEnd=TRUE)
     counts=cbind(counts,fc$counts)
   }
   ##individual counts and total counts
@@ -61,6 +61,6 @@ m6Am_call <- function(
                     ko_input_total, minimal_count_fdr = 10)
   ##write result
   rhtest_res=as.matrix(as.data.frame(rhtest_res))
-  rownames(rhtest_res)=rownames(counts)
-  write.csv(rhtest_res,"m6Am.csv")
+  rhtest_res$gene_id=rownames(counts)
+  write.csv(rhtest_res,"m6Am.csv",quote= F,sep="\t",col.names=F, row.names = F)
 }
