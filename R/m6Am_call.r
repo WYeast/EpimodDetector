@@ -22,6 +22,7 @@ m6Am_call <- function(
   PARAMETERS$KO_IP_BAM=KO_IP_BAM
   PARAMETERS$KO_INPUT_BAM=KO_INPUT_BAM
   PARAMETERS$GENE_ANNO_SAF=GENE_ANNO_SAF
+  PARAMETERS$IS_PAIRED_END=IS_PAIRED_END
   # check annotation
   if (is.na(PARAMETERS$GENE_ANNO_SAF)) {
     stop("must specify the TSS annotation .saf file/TxDb object for m6Am_peak_caller to work!",
@@ -40,7 +41,7 @@ m6Am_call <- function(
   counts=NULL
   for (ibam in 1:no_bam_files) {
     file=bam[ibam]
-    fc=featureCounts(file,annot.ext=PARAMETERS$GENE_ANNO_SAF,isPairedEnd=TRUE)
+    fc=featureCounts(file,annot.ext=PARAMETERS$GENE_ANNO_SAF,isPairedEnd=IS_PAIRED_END)
     counts=cbind(counts,fc$counts)
   }
   ##individual counts and total counts
