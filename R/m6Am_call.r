@@ -15,7 +15,7 @@
 #' m6Am_call(IP_BAM="m6Am-Cont.sorted.bam",INPUT_BAM = "Input-Cont.sorted.bam",KO_IP_BAM = "m6Am-KO.sorted.bam",KO_INPUT_BAM = "Input-KO.sorted.bam",GENE_ANNO_SAF = GENE_ANNO_SAF, ))
 #' @export
 m6Am_call <- function(
-  IP_BAM,INPUT_BAM,KO_IP_BAM,KO_INPUT_BAM,GENE_ANNO_SAF=NA,TSS_ANNO_SAF=NA,IS_PAIRED_END=NA,MINIMAL_COUNT_FDR=0){
+  IP_BAM,INPUT_BAM,KO_IP_BAM,KO_INPUT_BAM,GENE_ANNO_SAF=NA,TSS_ANNO_SAF=NA,IS_PAIRED_END=NA,MINIMAL_COUNT_FDR=0,OUTPUT_NAME="Diff.TSS.csv"){
   PARAMETERS=list();
   PARAMETERS$IP_BAM=IP_BAM
   PARAMETERS$INPUT_BAM=INPUT_BAM
@@ -25,9 +25,10 @@ m6Am_call <- function(
   PARAMETERS$TSS_ANNO_SAF=TSS_ANNO_SAF
   PARAMETERS$IS_PAIRED_END=IS_PAIRED_END
   PARAMETERS$MINIMAL_COUNT_FDR=MINIMAL_COUNT_FDR
+  PARAMETERS$OUTPUT_NAME=OUTPUT_NAME
   # check annotation, if not provided, use default hg38 annotation
   if (is.na(PARAMETERS$GENE_ANNO_SAF)) {
-    PARAMETERS$GENE_ANNO_SAF = system.file("extdata", "hg38.exons.bed", package="EpimodDetector")}
+    PARAMETERS$GENE_ANNO_SAF = system.file("extdata", "hg38.exons.saf", package="EpimodDetector")}
   if (is.na(PARAMETERS$TSS_ANNO_SAF)) {
     PARAMETERS$TSS_ANNO_SAF = system.file("extdata", "hg38_start_100_cage_corrected.saf", package="EpimodDetector")}
   # check single/paired-end status
@@ -78,5 +79,5 @@ m6Am_call <- function(
   rhtest_res=as.data.frame(rhtest_res)
   rhtest_res=cbind(merged_data$GeneID,rhtest_res)
   colnames(rhtest_res)[1]="GeneID"
-  write.csv(rhtest_res,"Diff.TSS.csv",row.names = FALSE)
+  write.csv(rhtest_res,PARAMETERS$OUTPUT_NAME,row.names = FALSE)
 }
